@@ -1,23 +1,33 @@
-const book = document.querySelector("#book");
-const btnCreate = document.querySelector("#create");
+const book = document.querySelector("#book")
+const bookTitle = document.querySelector('#title')
+const btnCreate = document.querySelector("#create")
+const btnSet = document.querySelector('#setContent')
+const btnGet = document.querySelector('#getContent')
 
+btnGet.addEventListener("click",getTextContent)
 btnCreate.addEventListener("click", createNewPage)
+btnSet.addEventListener("click",setTextContent)
 let pageNumber = 0;
 let numberOfPages = 0
-let maxLocation = 0 
+let numberOfSheets = 0
 let page = [...document.querySelectorAll(".page")]
+let chapterText = null
+let chapterTitle = null
+
 select()
+createNewPage()
+getTextContent()
 
 /*Selecting and Updating the DOM*/
 function select(){
     page = [...document.querySelectorAll(".page")]
+    chapterText = [...document.querySelectorAll('textarea')]
+    chapterTitle = [...document.querySelectorAll('.chapterTitle')]
     const prevBtn = [...document.querySelectorAll(".prevBtn")];
     const nextBtn = [...document.querySelectorAll(".nextBtn")];
 
     numberOfPages = page.length
-    maxLocation = numberOfPages+1
-    console.log(prevBtn.length, nextBtn.length)
-
+    numberOfSheets = page.length*2
     eventListerners(prevBtn,nextBtn)
 }
 
@@ -31,28 +41,29 @@ function eventListerners(prevBtn,nextBtn){
 
 /*Page Turning*/
 function goNextPage(){
-    if (!(pageNumber > maxLocation)){
-        if (pageNumber == 0){openBook(true)}
+    if (!(numberOfPages == pageNumber+1)){
         page[pageNumber].classList.add("flipped")
-        setTimeout(function() {
-            page[pageNumber].style.zIndex = pageNumber-maxLocation
-            pageNumber++
-            if (!(pageNumber >= numberOfPages)){
-                page[pageNumber].style.zIndex = numberOfPages
+
+        if (pageNumber == 0){openBook(true)}
+
+        setTimeout( () => {
+            page[pageNumber].style.zIndex = Math.abs(page[pageNumber].style.zIndex) 
+            if (!(pageNumber+1 >= numberOfPages)){
+                page[pageNumber+1].style.zIndex = Math.abs(page[pageNumber+1].style.zIndex)
             }
-          }, 300)
+            pageNumber++
+        }, "300")
     }
+
 }
 
 function goPrevPage(){
-    if (pageNumber <= maxLocation){
-        pageNumber--
-        if (pageNumber == 0){openBook(false)}
-        page[pageNumber].classList.remove("flipped")
-        page[pageNumber].style.zIndex = numberOfPages
-        if (!(pageNumber+1 >= numberOfPages)) {
-            page[pageNumber+1].style.zIndex = pageNumber-maxLocation
-        }
+    pageNumber--
+    page[pageNumber].classList.remove("flipped")
+    if (pageNumber == 0){openBook(false)}
+
+    if (!(pageNumber+1 >= numberOfPages)) {
+        page[pageNumber+1].style.zIndex = Math.abs(page[pageNumber+1].style.zIndex)*-1
     }
 }
 
@@ -77,7 +88,7 @@ function getCurrentDateFormatted() {
   }
 
 function createNewPage() {
-    const createDivWithElements = (className, buttonText) => {
+    const createDivWithElements = (className, buttonText,nPages) => {
         const div = document.createElement("div");
         div.classList.add(className);
 
@@ -86,8 +97,10 @@ function createNewPage() {
         div.appendChild(content)
 
         const input = document.createElement("input")
+        input.placeholder="Digite o título do Capítulo"
+        input.classList.add("chapterTitle")
         const date = document.createElement("p")
-        date.textContent = `Data de criação: ${getCurrentDateFormatted()}`
+        date.textContent = `Data: ${getCurrentDateFormatted()} | Página: ${nPages}`
         const textarea = document.createElement("textarea")
         textarea.rows = "26"
         content.appendChild(input)
@@ -106,12 +119,48 @@ function createNewPage() {
     page.classList.add("page");
     book.appendChild(page);
 
-    const frontDiv = createDivWithElements("front", "Próximo");
+    const frontDiv = createDivWithElements("front", "Próximo",(numberOfSheets-1));
     page.appendChild(frontDiv);
 
-    const backDiv = createDivWithElements("back", "Antes");
+    const backDiv = createDivWithElements("back", "Antes",numberOfSheets);
     page.appendChild(backDiv);
 
-    page.style.zIndex = (numberOfPages * -1 + 1);
+    page.style.zIndex = ((numberOfPages)*-1);
     select();
+    console.log(numberOfPages)
+}
+
+function setTextContent(){
+    localStorage.clear()
+    let titleArray = []
+    let textArray = []
+    for (i = 0; i < numberOfPages; i++) {
+        console.log(numberOfPages)
+        titleArray.push(chapterTitle[i].value)
+        textArray.push(chapterText[i].value)
+    }
+    localStorage.setItem('pageNumber',numberOfPages)
+    localStorage.setItem('bookTitle',bookTitle.value)
+    localStorage.setItem('chapterTitle', JSON.stringify(titleArray))
+    localStorage.setItem('chapterText', JSON.stringify(textArray))
+    window.alert("Conteúdo salvo")
+}
+
+ function getTextContent(){
+    const bTitle = localStorage.getItem("bookTitle")
+    const cTitle = JSON.parse(localStorage.getItem("chapterTitle"))
+    const cText = JSON.parse(localStorage.getItem("chapterText"))
+    const pageNumber = localStorage.getItem("pageNumber")
+
+    try {
+        if (pageNumber > numberOfPages) {
+            for (let index = 0; index < pageNumber-2; index++) {createNewPage()}
+        }
+        for (i = 0; i < numberOfPages; i++) {
+            bookTitle.value = bTitle
+            chapterTitle[i].value = cTitle[i]
+            chapterText[i].value = cText[i]
+        }  
+    }
+    catch{}
 }

@@ -8,40 +8,29 @@
     <script src="script.js" defer></script> 
 </head>
 <body>
-    
 
     <div id="book" class="book">
         <!-- Capa -->
-        <div id="cover" class="page">
+        <div class="page" style="z-index: 1;">
             <div class="front">
                 <div class="content" style="justify-content: center;">
-                    <input placeholder="Digite o título do livro">
+                    <input id="title" placeholder="Digite o título do livro">
                     <button class="nextBtn">PRÓXIMO</button>
                 </div>
             </div>
             <div class="back">
                 <div class="content">
-                    <button class="prevBtn" style="height: 100%;">ANTERIOR</button>
+                    <button class="prevBtn" style="height: 100%;border: none;">ANTERIOR</button>
                 </div>
             </div>
         </div>
-
-        <div id="backCover" class="page">
-            <div class="front">
-                <div class="content" style="justify-content: center;">
-                    <input placeholder="Digite o título do livro">
-                    <button class="nextBtn">PRÓXIMO</button>
-                </div>
-            </div>
-            <div class="back">
-                <div class="content">
-                    <button class="prevBtn" style="height: 100%;">ANTERIOR</button>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <button id="create">Adicionar</button>
+
+    <div>
+        <button id="create">Adicionar</button>
+        <button id="setContent">Salvar</button>
+        <button id="getContent">Mostrar</button>
+    </div>
 
 </body>
 </html>
