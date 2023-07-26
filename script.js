@@ -2,17 +2,20 @@ const book = document.querySelector("#book")
 const bookTitle = document.querySelector('#title')
 const btnCreate = document.querySelector("#create")
 const btnSet = document.querySelector('#setContent')
-const btnGet = document.querySelector('#getContent')
+const btnDel = document.querySelector('#deletePage')
+const btnClear = document.querySelector("#clear")
 
-btnGet.addEventListener("click",getTextContent)
-btnCreate.addEventListener("click", createNewPage)
-btnSet.addEventListener("click",setTextContent)
 let pageNumber = 0;
 let numberOfPages = 0
 let numberOfSheets = 0
 let page = [...document.querySelectorAll(".page")]
 let chapterText = null
 let chapterTitle = null
+
+btnClear.addEventListener("click",clearStorage)
+btnCreate.addEventListener("click", createNewPage)
+btnSet.addEventListener("click",setTextContent)
+btnDel.addEventListener("click", ()=>deletePage(pageNumber))
 
 select()
 createNewPage()
@@ -30,7 +33,6 @@ function select(){
     numberOfSheets = page.length*2
     eventListerners(prevBtn,nextBtn)
 }
-
 /*Adding the event listeners*/
 function eventListerners(prevBtn,nextBtn){ 
     for (i in page){
@@ -38,7 +40,6 @@ function eventListerners(prevBtn,nextBtn){
         nextBtn[i].addEventListener("click", goNextPage);
     }
 }
-
 /*Page Turning*/
 function goNextPage(){
     if (!(numberOfPages == pageNumber+1)){
@@ -48,15 +49,13 @@ function goNextPage(){
 
         setTimeout( () => {
             page[pageNumber].style.zIndex = Math.abs(page[pageNumber].style.zIndex) 
-            if (!(pageNumber+1 >= numberOfPages)){
-                page[pageNumber+1].style.zIndex = Math.abs(page[pageNumber+1].style.zIndex)
-            }
             pageNumber++
+            if (!(pageNumber >= numberOfPages)){
+                page[pageNumber].style.zIndex = Math.abs(page[pageNumber].style.zIndex)
+            }
         }, "300")
     }
-
 }
-
 function goPrevPage(){
     pageNumber--
     page[pageNumber].classList.remove("flipped")
@@ -66,7 +65,6 @@ function goPrevPage(){
         page[pageNumber+1].style.zIndex = Math.abs(page[pageNumber+1].style.zIndex)*-1
     }
 }
-
 function openBook(value){
     if (value){
         book.style.transform = 'translateX(50%)'
@@ -75,7 +73,6 @@ function openBook(value){
         book.style.transform = 'translateX(-0%)'
     }
 }
-
 /*Page Creation*/
 function getCurrentDateFormatted() {
     const currentDate = new Date();
@@ -85,10 +82,9 @@ function getCurrentDateFormatted() {
     const year = String(currentDate.getFullYear()).slice(-2);
   
     return `${day}/${month}/${year}`;
-  }
-
+}
 function createNewPage() {
-    const createDivWithElements = (className, buttonText,nPages) => {
+    const createDivWithElements = (className, buttonText, nPages) => {
         const div = document.createElement("div");
         div.classList.add(className);
 
@@ -99,6 +95,7 @@ function createNewPage() {
         const input = document.createElement("input")
         input.placeholder="Digite o título do Capítulo"
         input.classList.add("chapterTitle")
+
         const date = document.createElement("p")
         date.textContent = `Data: ${getCurrentDateFormatted()} | Página: ${nPages}`
         const textarea = document.createElement("textarea")
@@ -127,9 +124,13 @@ function createNewPage() {
 
     page.style.zIndex = ((numberOfPages)*-1);
     select();
-    console.log(numberOfPages)
 }
-
+function deletePage(position) {
+    if (position != 0 && position != 1){
+        page[position].remove()
+        console.log(pageNumber)
+    }
+}
 function setTextContent(){
     localStorage.clear()
     let titleArray = []
@@ -145,7 +146,17 @@ function setTextContent(){
     localStorage.setItem('chapterText', JSON.stringify(textArray))
     window.alert("Conteúdo salvo")
 }
-
+function clearStorage() {
+    if (confirm("Você deseja excluir TODOS os registros salvos?") == true) {
+        localStorage.clear()
+        for (let i = 2; i < numberOfPages; i++) {
+            deletePage(i)            
+        }
+        bookTitle.value = ""
+        chapterTitle[0].value = ""
+        chapterText[0].value = ""
+    }
+}
  function getTextContent(){
     const bTitle = localStorage.getItem("bookTitle")
     const cTitle = JSON.parse(localStorage.getItem("chapterTitle"))
