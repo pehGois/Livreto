@@ -42,8 +42,9 @@ p{
 }
 .book{
     position: relative;
-    width: 350px;
-    height: 450px;
+    width: 42vw;
+    max-width: 500px;
+    height: 55%;
     transition: transform 1s;
 }
 .page, .cover{
@@ -87,6 +88,10 @@ p{
     position: absolute; bottom: 0; width: 95%;
     border-top: 1px solid black;
 }
+.prevBtn{
+    border: none;
+    height: 100%;
+}
 .content{
     display: flex;
     width: 100%;
@@ -101,13 +106,13 @@ p{
     flex-direction: column;
     position: absolute; 
     right: 0; 
-    padding: 10px; 
+    padding: 15px; 
     height: 100%; 
     background-color: #fdefe4;
 }
 #buttonsContainer > button,select{
     margin-top: 10px;
-    padding: 5px;
+    padding: 8px;
     border-radius: 10px;
     border: 1px solid black;
     background-color: white;

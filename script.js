@@ -1,6 +1,6 @@
 const book = document.querySelector("#book")
-const bookTitle = document.querySelector('#title')
 const btnCreate = document.querySelector("#create")
+const bookTitle = document.querySelector('#title')
 const btnSet = document.querySelector('#setContent')
 const btnDel = document.querySelector('#deletePage')
 const btnClear = document.querySelector("#clear")
@@ -67,7 +67,7 @@ function goPrevPage(){
 }
 function openBook(value){
     if (value){
-        book.style.transform = 'translateX(50%)'
+        book.style.transform = 'translateX(35%)'
     }
     else{
         book.style.transform = 'translateX(-0%)'
@@ -84,25 +84,27 @@ function getCurrentDateFormatted() {
     return `${day}/${month}/${year}`;
 }
 function createNewPage() {
-    const createDivWithElements = (className, buttonText, nPages) => {
+    const createDivWithElements = (className, buttonText) => {
         const div = document.createElement("div");
         div.classList.add(className);
 
         const content = document.createElement("div")
         content.classList.add("content")
         div.appendChild(content)
+        
+        if (className === "front"){
+            const input = document.createElement("input")
+            input.placeholder="Digite o título da página"
+            input.classList.add("chapterTitle")
 
-        const input = document.createElement("input")
-        input.placeholder="Digite o título do Capítulo"
-        input.classList.add("chapterTitle")
-
-        const date = document.createElement("p")
-        date.textContent = `Data: ${getCurrentDateFormatted()} | Página: ${nPages}`
-        const textarea = document.createElement("textarea")
-        textarea.rows = "26"
-        content.appendChild(input)
-        content.appendChild(date)
-        content.appendChild(textarea)
+            const date = document.createElement("p")
+            date.textContent = `Data: ${getCurrentDateFormatted()} | Página: ${numberOfPages}`
+            const textarea = document.createElement("textarea")
+            textarea.rows = "30"
+            content.appendChild(input)
+            content.appendChild(date)
+            content.appendChild(textarea)
+        }
 
         const button = document.createElement("button");
         button.classList.add(className === "front" ? "nextBtn" : "prevBtn");
@@ -116,10 +118,10 @@ function createNewPage() {
     page.classList.add("page");
     book.appendChild(page);
 
-    const frontDiv = createDivWithElements("front", "Próximo",(numberOfSheets-1));
+    const frontDiv = createDivWithElements("front", "PRÓXIMO");
     page.appendChild(frontDiv);
 
-    const backDiv = createDivWithElements("back", "Antes",numberOfSheets);
+    const backDiv = createDivWithElements("back", "ANTERIOR");
     page.appendChild(backDiv);
 
     page.style.zIndex = ((numberOfPages)*-1);
@@ -128,15 +130,14 @@ function createNewPage() {
 function deletePage(position) {
     if (position != 0 && position != 1){
         page[position].remove()
-        console.log(pageNumber)
     }
 }
 function setTextContent(){
     localStorage.clear()
     let titleArray = []
     let textArray = []
-    for (i = 0; i < numberOfPages; i++) {
-        console.log(numberOfPages)
+    for (i = 0; i < numberOfPages-1; i++) {
+        console.log("Capítulo: ", chapterTitle[i].value, "| Texto: ", chapterText[i].value, "\nNº de pg: ", numberOfPages)
         titleArray.push(chapterTitle[i].value)
         textArray.push(chapterText[i].value)
     }
