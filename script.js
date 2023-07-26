@@ -67,7 +67,7 @@ function goPrevPage(){
 }
 function openBook(value){
     if (value){
-        book.style.transform = 'translateX(35%)'
+        book.style.transform = 'translateX(50%)'
     }
     else{
         book.style.transform = 'translateX(-0%)'
