@@ -8,6 +8,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     transition: transform 1s;
     font-family: sans-serif;
     background-color: #B09C8D;
@@ -130,7 +131,26 @@ button:hover{
     cursor: pointer;
 }
 img{
-    width: 350px;
+    width: 100%;
     margin: 10px auto;
 }
+.openBook{
+    transform: translateX(50%);
+}
+.closeBook{
+    transform: translateX(-0%);
+}
 
+@media (max-width: 600px)
+{
+    .book{
+        width: 100vw;
+    }
+    .openBook{
+        transform: translateX(-0%);
+    }
+    .closeBook{
+        transform: translateX(-0%);
+    }
+
+}

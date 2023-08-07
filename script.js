@@ -36,6 +36,11 @@ function select(){
 /*Adding the event listeners*/
 function eventListerners(prevBtn,nextBtn){ 
     for (i in page){
+        console.log(i, numberOfPages)
+        if (i == numberOfPages-1){
+            console.log("Oi")
+            prevBtn[i].addEventListener("click", goPrevPage);
+        }
         prevBtn[i].addEventListener("click", goPrevPage);
         nextBtn[i].addEventListener("click", goNextPage);
     }
@@ -57,6 +62,7 @@ function goNextPage(){
     }
 }
 function goPrevPage(){
+    console.log("PrevPage")
     pageNumber--
     page[pageNumber].classList.remove("flipped")
     if (pageNumber == 0){openBook(false)}
@@ -67,10 +73,10 @@ function goPrevPage(){
 }
 function openBook(value){
     if (value){
-        book.style.transform = 'translateX(50%)'
+        book.classList.toggle("openBook")
     }
     else{
-        book.style.transform = 'translateX(-0%)'
+        book.classList.toggle("closeBook")
     }
 }
 /*Page Creation*/
