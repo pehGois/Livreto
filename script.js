@@ -1,9 +1,11 @@
 const book = document.querySelector("#book")
-const btnCreate = document.querySelector("#create")
+const btnAdd = document.querySelector("#add")
 const bookTitle = document.querySelector('#title')
-const btnSet = document.querySelector('#setContent')
-const btnDel = document.querySelector('#deletePage')
+const btnSave = document.querySelector('#save')
+const btnDel = document.querySelector('#delete')
 const btnClear = document.querySelector("#clear")
+const navBar = document.querySelector("#navBar")
+const btnSideBar = document.querySelector("#btnSideBar")
 
 let pageNumber = 0;
 let numberOfPages = 0
@@ -13,9 +15,10 @@ let chapterText = null
 let chapterTitle = null
 
 btnClear.addEventListener("click",clearStorage)
-btnCreate.addEventListener("click", createNewPage)
-btnSet.addEventListener("click",setTextContent)
+btnAdd.addEventListener("click", createNewPage)
+btnSave.addEventListener("click",setTextContent)
 btnDel.addEventListener("click", ()=>deletePage(pageNumber))
+btnSideBar.addEventListener("click",sideBar)
 
 select()
 createNewPage()
@@ -62,14 +65,16 @@ function goNextPage(){
     }
 }
 function goPrevPage(){
-    console.log("PrevPage")
-    pageNumber--
-    page[pageNumber].classList.remove("flipped")
-    if (pageNumber == 0){openBook(false)}
+    if (pageNumber > 0) {
+        pageNumber--
+        page[pageNumber].classList.remove("flipped")
+        if (pageNumber == 0){openBook(false)}
 
-    if (!(pageNumber+1 >= numberOfPages)) {
-        page[pageNumber+1].style.zIndex = Math.abs(page[pageNumber+1].style.zIndex)*-1
+        if (!(pageNumber+1 >= numberOfPages)) {
+            page[pageNumber+1].style.zIndex = Math.abs(page[pageNumber+1].style.zIndex)*-1
+        }
     }
+
 }
 function openBook(value){
     if (value){
@@ -181,4 +186,13 @@ function clearStorage() {
         }  
     }
     catch{}
+}
+
+function sideBar(){
+    book.addEventListener("click",closeBar)
+    navBar.classList.add("sideBar","block")
+    
+    function closeBar(){
+        navBar.classList.remove("sideBar", "block")
+    }
 }

@@ -6,6 +6,7 @@
     <title>O Livreto</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/8ecfef7825.js" crossorigin="anonymous"></script>
     <script src="script.js" defer></script> 
 </head>
 <body>
@@ -27,16 +28,17 @@
         </div>
     </div>
 
-    <div id="buttonsContainer">
+    <div id="btnSideBar"></div>
+    <div id="navBar">
         <picture>
-            <source srcset="img/logo.png" media="(min-width: 600px)" alt="Logo">
+            <source srcset="img/logo.png" media="(min-width: 700px)" alt="Logo">
             <img src="img/logoSmall.png" alt="Logo">
         </picture>
         <div>
-            <button id="create">Add Página</button>
-            <button id="setContent">Salvar</button>
-            <button id="deletePage">Deletar</button>
-            <button id="clear">Limpar</button>
+            <button id="add"><i class="fa-solid fa-plus"></i><br>ADICIONAR</button>
+            <button id="save"><i class="fa-solid fa-floppy-disk"></i><br>SALVAR</button>
+            <button id="delete"><i class="fa-solid fa-trash"></i><br>DELETAR</button>
+            <button id="clear"><i class="fa-solid fa-triangle-exclamation"></i><br>LIMPAR</button>
         </div>
     </div>
 
