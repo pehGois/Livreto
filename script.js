@@ -36,6 +36,7 @@ function select(){
     numberOfSheets = page.length*2
     eventListerners(prevBtn,nextBtn)
 }
+
 /*Adding the event listeners*/
 function eventListerners(prevBtn,nextBtn){ 
     for (i in page){
@@ -48,6 +49,7 @@ function eventListerners(prevBtn,nextBtn){
         nextBtn[i].addEventListener("click", goNextPage);
     }
 }
+
 /*Page Turning*/
 function goNextPage(){
     if (!(numberOfPages == pageNumber+1)){
@@ -64,6 +66,7 @@ function goNextPage(){
         }, "300")
     }
 }
+
 function goPrevPage(){
     if (pageNumber > 0) {
         pageNumber--
@@ -74,16 +77,13 @@ function goPrevPage(){
             page[pageNumber+1].style.zIndex = Math.abs(page[pageNumber+1].style.zIndex)*-1
         }
     }
+}
 
-}
 function openBook(value){
-    if (value){
-        book.classList.toggle("openBook")
-    }
-    else{
-        book.classList.toggle("closeBook")
-    }
+    book.classList.toggle("openBook", value);
+    book.classList.toggle("closeBook", !value);
 }
+
 /*Page Creation*/
 function getCurrentDateFormatted() {
     const currentDate = new Date();
@@ -94,6 +94,7 @@ function getCurrentDateFormatted() {
   
     return `${day}/${month}/${year}`;
 }
+
 function createNewPage() {
     const createDivWithElements = (className, buttonText) => {
         const div = document.createElement("div");
@@ -110,11 +111,11 @@ function createNewPage() {
 
             const date = document.createElement("p")
             date.textContent = `Data: ${getCurrentDateFormatted()} | Página: ${numberOfPages}`
+
             const textarea = document.createElement("textarea")
             textarea.rows = "30"
-            content.appendChild(input)
-            content.appendChild(date)
-            content.appendChild(textarea)
+
+            content.append(input, date, textarea);
         }
 
         const button = document.createElement("button");
@@ -130,19 +131,20 @@ function createNewPage() {
     book.appendChild(page);
 
     const frontDiv = createDivWithElements("front", "PRÓXIMO");
-    page.appendChild(frontDiv);
-
     const backDiv = createDivWithElements("back", "ANTERIOR");
-    page.appendChild(backDiv);
 
+    page.append(frontDiv, backDiv);
     page.style.zIndex = ((numberOfPages)*-1);
-    select();
+
+    select()
 }
+
 function deletePage(position) {
     if (position != 0 && position != 1){
         page[position].remove()
     }
 }
+
 function setTextContent(){
     localStorage.clear()
     let titleArray = []
@@ -158,6 +160,7 @@ function setTextContent(){
     localStorage.setItem('chapterText', JSON.stringify(textArray))
     window.alert("Conteúdo salvo")
 }
+
 function clearStorage() {
     if (confirm("Você deseja excluir TODOS os registros salvos?") == true) {
         localStorage.clear()
@@ -169,6 +172,7 @@ function clearStorage() {
         chapterText[0].value = ""
     }
 }
+
  function getTextContent(){
     const bTitle = localStorage.getItem("bookTitle")
     const cTitle = JSON.parse(localStorage.getItem("chapterTitle"))
