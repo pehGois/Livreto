@@ -44,9 +44,9 @@ p{
 }
 .book{
     position: relative;
-    width: 42vw;
+    height: 60vh;
+    aspect-ratio: 3/1;
     max-width: 500px;
-    height: 55%;
     transition: transform 1s;
 }
 .page, .cover{

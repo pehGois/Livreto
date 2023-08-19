@@ -6,13 +6,14 @@ const btnDel = document.querySelector('#delete')
 const btnClear = document.querySelector("#clear")
 const navBar = document.querySelector("#navBar")
 const btnSideBar = document.querySelector("#btnSideBar")
-
+   
 let pageNumber = 0;
 let numberOfPages = 0
 let numberOfSheets = 0
 let page = [...document.querySelectorAll(".page")]
 let chapterText = null
 let chapterTitle = null
+let sideBarOpen = false
 
 btnClear.addEventListener("click",clearStorage)
 btnAdd.addEventListener("click", createNewPage)
@@ -23,6 +24,12 @@ btnSideBar.addEventListener("click",sideBar)
 select()
 createNewPage()
 getTextContent()
+
+typeof(screen.width)
+
+setInterval( () => {
+    if (window.innerWidth > 700 && sideBarOpen == true) {closeBar()}
+}, 1000)
 
 /*Selecting and Updating the DOM*/
 function select(){
@@ -40,9 +47,7 @@ function select(){
 /*Adding the event listeners*/
 function eventListerners(prevBtn,nextBtn){ 
     for (i in page){
-        console.log(i, numberOfPages)
         if (i == numberOfPages-1){
-            console.log("Oi")
             prevBtn[i].addEventListener("click", goPrevPage);
         }
         prevBtn[i].addEventListener("click", goPrevPage);
@@ -150,7 +155,6 @@ function setTextContent(){
     let titleArray = []
     let textArray = []
     for (i = 0; i < numberOfPages-1; i++) {
-        console.log("Capítulo: ", chapterTitle[i].value, "| Texto: ", chapterText[i].value, "\nNº de pg: ", numberOfPages)
         titleArray.push(chapterTitle[i].value)
         textArray.push(chapterText[i].value)
     }
@@ -195,8 +199,11 @@ function clearStorage() {
 function sideBar(){
     book.addEventListener("click",closeBar)
     navBar.classList.add("sideBar","block")
-    
-    function closeBar(){
-        navBar.classList.remove("sideBar", "block")
-    }
+    sideBarOpen = true
+}
+
+function closeBar(){
+    console.log("I'm being called")
+    navBar.classList.remove("sideBar", "block")
+    sideBarOpen = false
 }

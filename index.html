@@ -10,7 +10,19 @@
     <script src="script.js" defer></script> 
 </head>
 <body>
-
+    <div id="navBar">
+        <picture>
+            <source srcset="img/logo.png" media="(min-width: 700px)" alt="Logo">
+            <img src="img/logoSmall.png" alt="Logo">
+        </picture>
+        <div>
+            <button id="add"><i class="fa-solid fa-plus"></i><br>ADICIONAR</button>
+            <button id="save"><i class="fa-solid fa-floppy-disk"></i><br>SALVAR</button>
+            <button id="delete"><i class="fa-solid fa-trash"></i><br>DELETAR</button>
+            <button id="clear"><i class="fa-solid fa-triangle-exclamation"></i><br>LIMPAR</button>
+        </div>
+    </div>
+    
     <div id="book" class="book">
         <!-- Capa -->
         <div class="page" style="z-index: 1;">
@@ -27,20 +39,8 @@
             </div>
         </div>
     </div>
-
     <div id="btnSideBar"></div>
-    <div id="navBar">
-        <picture>
-            <source srcset="img/logo.png" media="(min-width: 700px)" alt="Logo">
-            <img src="img/logoSmall.png" alt="Logo">
-        </picture>
-        <div>
-            <button id="add"><i class="fa-solid fa-plus"></i><br>ADICIONAR</button>
-            <button id="save"><i class="fa-solid fa-floppy-disk"></i><br>SALVAR</button>
-            <button id="delete"><i class="fa-solid fa-trash"></i><br>DELETAR</button>
-            <button id="clear"><i class="fa-solid fa-triangle-exclamation"></i><br>LIMPAR</button>
-        </div>
-    </div>
+
 
 </body>
 </html>
